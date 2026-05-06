@@ -8,6 +8,7 @@ from os import getenv, path
 # PROJECT INFO
 # ===============================
 PROJECT_NAME = "Sales"
+DB_SCHEMA = getenv("DB_SCHEMA", PROJECT_NAME)
 
 # ===============================
 # BASE
@@ -100,7 +101,7 @@ if DEVELOPMENT_MODE:
             "HOST": getenv("POSTGRES_HOST", "localhost"),
             "PORT": getenv("POSTGRES_PORT", "5432"),
             "OPTIONS": {
-                "options": f"-c search_path={PROJECT_NAME},public"
+                "options": f"-c search_path={DB_SCHEMA},public"
             },
         }
     }

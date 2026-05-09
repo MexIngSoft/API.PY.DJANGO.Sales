@@ -101,7 +101,7 @@ if DEVELOPMENT_MODE:
             "HOST": getenv("POSTGRES_HOST", "localhost"),
             "PORT": getenv("POSTGRES_PORT", "5432"),
             "OPTIONS": {
-                "options": f"-c search_path={DB_SCHEMA},public"
+                "options": f"-c search_path=\"{DB_SCHEMA}\",public"
             },
         }
     }
@@ -119,17 +119,13 @@ elif len(sys.argv) > 0 and sys.argv[1] != "collectstatic":
 # REST
 # ===============================
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "core.authentication.ExternalAuthAuthentication",
-    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
     ],
 }
 
-AUTH_API_VERIFY_URL = getenv("AUTH_API_VERIFY_URL")
-if not AUTH_API_VERIFY_URL:
-    raise RuntimeError("AUTH_API_VERIFY_URL no definido")
+AUTH_API_VERIFY_URL = getenv("AUTH_API_VERIFY_URL", "http://api-backend-python:8000/api/auth/jwt/verify/")
 
 # ===============================
 # CORS
